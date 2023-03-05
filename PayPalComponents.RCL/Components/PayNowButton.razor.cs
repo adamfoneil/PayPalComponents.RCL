@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using PayPal.Extensions;
 using PayPalComponents.Extensions;
+using PayPalComponents.Models;
 
-namespace PayPalComponents.Components
+namespace PayPalComponents
 {
-    public partial class PayPalButton
+    public partial class PayNowButton
     {
         private IEnumerable<MarkupString> fields = Enumerable.Empty<MarkupString>();
 

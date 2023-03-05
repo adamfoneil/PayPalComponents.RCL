@@ -1,0 +1,12 @@
+﻿@page "/"
+@using PayPal.Extensions;
+
+<PageTitle>Index</PageTitle>
+
+<RadzenDropDown @bind-Value="@environment" Data="@(DropDownData.FromEnum<PayPalEnvironment>())" ValueProperty="Value"/>
+
+<PayNowButton Environment="@environment"/>
+
+@code {
+    PayPalEnvironment environment = PayPalEnvironment.Sandbox;
+}

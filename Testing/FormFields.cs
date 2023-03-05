@@ -1,5 +1,6 @@
 using PayPalComponents;
 using PayPalComponents.Extensions;
+using PayPalComponents.Models;
 
 namespace Testing
 {

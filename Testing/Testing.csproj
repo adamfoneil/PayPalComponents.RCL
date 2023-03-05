@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PayPalComponents.RCL\PayPalComponents.RCL.csproj" />
+    <ProjectReference Include="..\TestApp\TestApp.csproj" />
   </ItemGroup>
 
 </Project>

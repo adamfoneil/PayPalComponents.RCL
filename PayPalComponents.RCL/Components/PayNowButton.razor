@@ -1,4 +1,6 @@
-﻿<form action="@PayPalExtensions.Urls[Environment].ToString()" method="post">
+﻿@namespace PayPalComponents
+
+<form action="@PayPalExtensions.Urls[Environment].ToString()" method="post">
     <input type="hidden" name="cmd" value="_xclick">
     @foreach (var field in fields)
     {

@@ -1,6 +1,6 @@
 ﻿using PayPalComponents.Attributes;
 
-namespace PayPalComponents
+namespace PayPalComponents.Models
 {
     public class Settings
     {
