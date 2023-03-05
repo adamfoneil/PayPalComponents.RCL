@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayPalComponents.RCL", "PayPalComponents.RCL\PayPalComponents.RCL.csproj", "{D840AF0E-25CD-43B6-BE39-86D48187B548}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{1360F72E-736C-4F05-8401-2EA324E605B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D840AF0E-25CD-43B6-BE39-86D48187B548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D840AF0E-25CD-43B6-BE39-86D48187B548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D840AF0E-25CD-43B6-BE39-86D48187B548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D840AF0E-25CD-43B6-BE39-86D48187B548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1360F72E-736C-4F05-8401-2EA324E605B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1360F72E-736C-4F05-8401-2EA324E605B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1360F72E-736C-4F05-8401-2EA324E605B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1360F72E-736C-4F05-8401-2EA324E605B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB28CFD1-38AD-4A01-A55D-C1B9D827762B}
+	EndGlobalSection
+EndGlobal

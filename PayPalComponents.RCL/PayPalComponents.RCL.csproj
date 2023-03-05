@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>AO.PayPalComponents.RCL</PackageId>
+    <Title>PayPal Components</Title>
+    <Authors>Adam O'Neil</Authors>
+	<RestoreAdditionalProjectSources>
+		https://aosoftware.blob.core.windows.net/packages/index.json
+	</RestoreAdditionalProjectSources>
+	<RootNamespace>PayPalComponents</RootNamespace>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
+    <PackageReference Include="AO.PayPalExtensions" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
