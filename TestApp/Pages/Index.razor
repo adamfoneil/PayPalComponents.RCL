@@ -3,7 +3,9 @@
 
 <PageTitle>Index</PageTitle>
 
-<RadzenDropDown @bind-Value="@environment" Data="@(DropDownData.FromEnum<PayPalEnvironment>())" ValueProperty="Value"/>
+<RadzenDropDown @bind-Value="@environment" Data="@(DropDownData.FromEnum<PayPalEnvironment>())" ValueProperty="Value" class="mb-3"/>
+
+
 
 <PayNowButton Environment="@environment"/>
 
