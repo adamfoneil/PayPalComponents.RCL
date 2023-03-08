@@ -1,4 +1,4 @@
-﻿namespace TestApp.Extensions
+﻿namespace PayPalComponents.Extensions
 {
     public record DropdownOption<TValue> where TValue : struct
     {

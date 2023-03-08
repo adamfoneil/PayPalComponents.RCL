@@ -1,0 +1,54 @@
+@namespace PayPalComponents
+@using PayPalComponents.Models;
+
+<div>
+    <RadzenDropDown @bind-Value="@environment" Data="@(DropDownData.FromEnum<PayPalEnvironment>())" ValueProperty="Value" class="mb-3"/>
+</div>
+
+<div>
+    <RadzenButton Icon="add_circle_outline" Click="AddValue" Text="Add Value" class="my-3" />
+</div>
+
+<RadzenDataGrid Data="fields" EditMode="DataGridEditMode.Single" @ref="grid">
+    <Columns>
+        <RadzenDataGridColumn TItem="FormData" Title="Field Name">
+            <Template>
+                <span>@context.Name</span>
+            </Template>
+            <EditTemplate>
+                <RadzenTextBox @bind-Value="@context.Name" MaxLength="40"/>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FormData" Title="Value">
+            <Template>
+                <span>@context.Value</span>
+            </Template>
+            <EditTemplate>
+                <RadzenTextBox @bind-Value="@context.Value" MaxLength="255" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenGridColumn TItem="FormData">
+            <Template>
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true"/>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true"/>
+            </Template>
+            <EditTemplate>
+
+            </EditTemplate>
+        </RadzenGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+<PayNowButton Environment="@environment" class="my-3"/>
+
+@code {
+    RadzenDataGrid<FormData>? grid;
+    PayPalEnvironment environment = PayPalEnvironment.Sandbox;
+    List<FormData> fields = new();
+
+    void AddValue() => grid?.InsertRow(new FormData());    
+
+    void EditRow(FormData args) => grid?.EditRow(args);
+
+    void DeleteRow(FormData args) => fields.Remove(args);
+}

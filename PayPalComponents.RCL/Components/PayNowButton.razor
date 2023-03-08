@@ -1,6 +1,6 @@
 ﻿@namespace PayPalComponents
 
-<form action="@PayPalExtensions.Urls[Environment].ToString()" method="post">
+<form action="@PayPalExtensions.Urls[Environment].ToString()" method="post" class="@Css.GetClass(Parameters)">
     <input type="hidden" name="cmd" value="_xclick">
     @foreach (var field in fields)
     {
@@ -13,3 +13,8 @@
         Pay @(Settings.Amount.ToString(AmountFormat)) Now with PayPal
     </button>    
 </form>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Parameters { get; set; } = new();
+}
