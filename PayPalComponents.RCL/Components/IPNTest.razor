@@ -10,7 +10,7 @@
     <RadzenButton Icon="add_circle_outline" Click="AddValue" Text="Add Value" class="my-3" />
 </div>
 
-<RadzenDataGrid Data="fields" EditMode="DataGridEditMode.Single" @ref="grid">
+<RadzenDataGrid TItem="FormData" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate">
     <Columns>
         <RadzenDataGridColumn TItem="FormData" Title="Field Name" Width="25%">
             <Template>
@@ -34,7 +34,8 @@
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true"/>
             </Template>
             <EditTemplate>
-
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="save" Click="@((args) => grid?.UpdateRow(context))" class="mr-2" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" Click="@((args) => grid?.CancelEditRow(context))" />
             </EditTemplate>
         </RadzenGridColumn>
     </Columns>
@@ -52,6 +53,7 @@
         var settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
         {
             BusinessEmail = "your PayPal account email",
+            Amount = 1,
             NotifyUrl = "Ngrok callback url"
         };
 
@@ -65,4 +67,9 @@
     void EditRow(FormData args) => grid?.EditRow(args);
 
     void DeleteRow(FormData args) => fields.Remove(args);
+
+    async Task OnRowUpdate(FormData row)
+    {
+        
+    }
 }
