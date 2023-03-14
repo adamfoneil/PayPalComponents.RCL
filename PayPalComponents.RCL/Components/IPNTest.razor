@@ -30,8 +30,8 @@
             </EditTemplate>
         </RadzenDataGridColumn>
 
-        <RadzenGridColumn TItem="FormData" Width="100px" Title="hello">
-            <Template>                
+        <RadzenGridColumn TItem="FormData" Width="100px">
+            <Template>
                 <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true"/>
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true"/>
             </Template>
@@ -49,20 +49,23 @@
     RadzenDataGrid<FormData>? grid;
     PayPalEnvironment environment = PayPalEnvironment.Sandbox;
     List<FormData> fields = new();
-    Settings settings = new();
+    Settings settings = new();    
 
     protected override async Task OnAfterRenderAsync(bool firstRenter)
     {
-        settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
+        if (firstRenter)
         {
-            BusinessEmail = "your PayPal account email",
-            Amount = 1,
-            NotifyUrl = "Ngrok callback url"
-        };
+            settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
+            {
+                BusinessEmail = "your PayPal account email",
+                Amount = 1,
+                NotifyUrl = "Ngrok callback url"
+            };
 
-        fields = settings.ToEnumerable((name, val) => new FormData() { Name = name, Value = val }).ToList();
+            fields = settings.ToEnumerable((name, val) => new FormData() { Name = name, Value = val }).ToList();
 
-        StateHasChanged();
+            StateHasChanged();
+        }        
     }
 
     void AddValue() => grid?.InsertRow(new FormData());    
