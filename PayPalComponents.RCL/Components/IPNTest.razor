@@ -20,6 +20,7 @@
                 <RadzenTextBox @bind-Value="@context.Name" MaxLength="40" class="w-100"/>
             </EditTemplate>
         </RadzenDataGridColumn>
+
         <RadzenDataGridColumn TItem="FormData" Title="Value" Width="75%">
             <Template>
                 <span>@context.Value</span>
@@ -28,8 +29,9 @@
                 <RadzenTextBox @bind-Value="@context.Value" MaxLength="255" class="w-100" />
             </EditTemplate>
         </RadzenDataGridColumn>
-        <RadzenGridColumn TItem="FormData">
-            <Template>
+
+        <RadzenGridColumn TItem="FormData" Width="100px" Title="hello">
+            <Template>                
                 <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true"/>
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true"/>
             </Template>
@@ -41,16 +43,17 @@
     </Columns>
 </RadzenDataGrid>
 
-<PayNowButton Environment="@environment" class="my-3"/>
+<PayNowButton Environment="@environment" class="my-3" Settings="settings"/>
 
 @code {
     RadzenDataGrid<FormData>? grid;
     PayPalEnvironment environment = PayPalEnvironment.Sandbox;
-    List<FormData> fields = new();    
+    List<FormData> fields = new();
+    Settings settings = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRenter)
     {
-        var settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
+        settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
         {
             BusinessEmail = "your PayPal account email",
             Amount = 1,
