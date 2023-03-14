@@ -1,4 +1,5 @@
 @namespace PayPalComponents
+@inject Blazored.LocalStorage.ILocalStorageService Storage
 @using PayPalComponents.Models;
 
 <div>
@@ -11,20 +12,20 @@
 
 <RadzenDataGrid Data="fields" EditMode="DataGridEditMode.Single" @ref="grid">
     <Columns>
-        <RadzenDataGridColumn TItem="FormData" Title="Field Name">
+        <RadzenDataGridColumn TItem="FormData" Title="Field Name" Width="25%">
             <Template>
                 <span>@context.Name</span>
             </Template>
             <EditTemplate>
-                <RadzenTextBox @bind-Value="@context.Name" MaxLength="40"/>
+                <RadzenTextBox @bind-Value="@context.Name" MaxLength="40" class="w-100"/>
             </EditTemplate>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="FormData" Title="Value">
+        <RadzenDataGridColumn TItem="FormData" Title="Value" Width="75%">
             <Template>
                 <span>@context.Value</span>
             </Template>
             <EditTemplate>
-                <RadzenTextBox @bind-Value="@context.Value" MaxLength="255" />
+                <RadzenTextBox @bind-Value="@context.Value" MaxLength="255" class="w-100" />
             </EditTemplate>
         </RadzenDataGridColumn>
         <RadzenGridColumn TItem="FormData">
@@ -44,7 +45,20 @@
 @code {
     RadzenDataGrid<FormData>? grid;
     PayPalEnvironment environment = PayPalEnvironment.Sandbox;
-    List<FormData> fields = new();
+    List<FormData> fields = new();    
+
+    protected override async Task OnAfterRenderAsync(bool firstRenter)
+    {
+        var settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
+        {
+            BusinessEmail = "your PayPal account email",
+            NotifyUrl = "Ngrok callback url"
+        };
+
+        fields = settings.ToEnumerable((name, val) => new FormData() { Name = name, Value = val }).ToList();
+
+        StateHasChanged();
+    }
 
     void AddValue() => grid?.InsertRow(new FormData());    
 
