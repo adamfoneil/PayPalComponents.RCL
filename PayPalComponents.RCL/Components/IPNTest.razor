@@ -10,30 +10,30 @@
     <RadzenButton Icon="add_circle_outline" Click="AddValue" Text="Add Value" class="my-3" />
 </div>
 
-<RadzenDataGrid TItem="FormData" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate">
+<RadzenGrid TItem="FormData" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate">
     <Columns>
-        <RadzenDataGridColumn TItem="FormData" Title="Field Name" Width="25%">
+        <RadzenGridColumn TItem="FormData" Title="Field Name" Width="25%">
             <Template>
                 <span>@context.Name</span>
             </Template>
             <EditTemplate>
-                <RadzenTextBox @bind-Value="@context.Name" MaxLength="40" class="w-100"/>
+                <RadzenTextBox @bind-Value="@context.Name" MaxLength="40" class="w-100" />
             </EditTemplate>
-        </RadzenDataGridColumn>
+        </RadzenGridColumn>
 
-        <RadzenDataGridColumn TItem="FormData" Title="Value" Width="75%">
+        <RadzenGridColumn TItem="FormData" Title="Value" Width="75%">
             <Template>
                 <span>@context.Value</span>
             </Template>
             <EditTemplate>
                 <RadzenTextBox @bind-Value="@context.Value" MaxLength="255" class="w-100" />
             </EditTemplate>
-        </RadzenDataGridColumn>
+        </RadzenGridColumn>
 
-        <RadzenGridColumn TItem="FormData" Width="100px">
+        <RadzenGridColumn TItem="FormData" Width="120px">
             <Template>
-                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true"/>
-                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true"/>
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true" />
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true" />
             </Template>
             <EditTemplate>
                 <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="save" Click="@((args) => grid?.UpdateRow(context))" class="mr-2" />
@@ -41,12 +41,12 @@
             </EditTemplate>
         </RadzenGridColumn>
     </Columns>
-</RadzenDataGrid>
+</RadzenGrid>
 
 <PayNowButton Environment="@environment" class="my-3" Settings="settings"/>
 
 @code {
-    RadzenDataGrid<FormData>? grid;
+    RadzenGrid<FormData>? grid;
     PayPalEnvironment environment = PayPalEnvironment.Sandbox;
     List<FormData> fields = new();
     Settings settings = new();    
