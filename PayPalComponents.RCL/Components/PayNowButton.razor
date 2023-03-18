@@ -31,8 +31,16 @@
     [Parameter]
     public string AmountFormat { get; set; } = "c2";
 
-    protected override void OnInitialized()
-    {        
+    public void Update(Settings settings)
+    {
+        ArgumentNullException.ThrowIfNull(settings, nameof(settings));
+
+        Settings = settings;
         fields = Settings.ToHiddenFormFields().Select(field => new MarkupString(field));
+
+        StateHasChanged();
     }
+
+    protected override void OnInitialized() => Update(Settings);
+
 }

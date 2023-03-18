@@ -43,14 +43,15 @@
     </Columns>
 </RadzenGrid>
 
-<PayNowButton Environment="@environment" class="my-3" Settings="settings"/>
+<PayNowButton Environment="@environment" class="my-3" Settings="settings" @ref="payNow"/>
 
 @code {
     RadzenGrid<FormField>? grid;
     PayPalEnvironment environment = PayPalEnvironment.Sandbox;
     List<FormField> fields = new();
-    Settings settings = new();    
-    
+    Settings settings = new();
+    PayNowButton? payNow;
+
     const string storageKey = "default";
 
     protected override async Task OnAfterRenderAsync(bool firstRenter)
@@ -63,6 +64,8 @@
                 Amount = 1,
                 NotifyUrl = "Ngrok callback url"
             };
+
+            payNow?.Update(settings);
 
             fields = settings.ToEnumerable((name, val) => new FormField(name, val?.ToString())).ToList();
 
@@ -83,6 +86,8 @@
             .ToDictionary(grp => grp.Key, grp => (object)string.Join(", ", grp.Select(item => item.Value)));
 
         settings = Settings.FromDictionary(dictionary);
-        await Storage.SetItemAsync(storageKey, settings);
+        payNow?.Update(settings);
+        
+        await Storage.SetItemAsync(storageKey, settings);        
     }
 }

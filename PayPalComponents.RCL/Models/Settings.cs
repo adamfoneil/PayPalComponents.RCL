@@ -23,6 +23,9 @@ namespace PayPalComponents.Models
         [FieldName("notify_url")]
         public string NotifyUrl { get; set; } = default!;
 
+        [FieldName("currency_code")]
+        public string CurrencyCode { get; set; } = "USD";
+
         public static Settings FromDictionary(Dictionary<string, object> dictionary) => new[]
         {
             ("business", nameof(BusinessEmail)),
