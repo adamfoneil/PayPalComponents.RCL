@@ -26,13 +26,18 @@ namespace PayPalComponents.Models
         [FieldName("currency_code")]
         public string CurrencyCode { get; set; } = "USD";
 
+        [FieldName("no_shipping")]
+        public bool ShippingDisabled { get; set; }
+
         public static Settings FromDictionary(Dictionary<string, object> dictionary) => new[]
         {
             ("business", nameof(BusinessEmail)),
             ("amount", nameof(Amount)),
             ("item_name", nameof(ItemName)),
+            ("item_number", nameof(ItemNumber)),
             ("return", nameof(ReturnUrl)),
-            ("notify_url", nameof(NotifyUrl))
+            ("notify_url", nameof(NotifyUrl)),
+            ("no_shipping", nameof(ShippingDisabled))
         }.ToObject<Settings>(dictionary);        
     }
 }

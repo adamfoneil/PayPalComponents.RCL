@@ -10,7 +10,7 @@
     <RadzenButton Icon="add_circle_outline" Click="AddValue" Text="Add Value" class="my-3" />
 </div>
 
-<RadzenGrid TItem="FormField" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate">
+<RadzenGrid TItem="FormField" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate" RowCreate="OnRowUpdate">
     <Columns>
         <RadzenGridColumn TItem="FormField" Title="Field Name" Width="25%">
             <Template>
@@ -81,9 +81,12 @@
 
     async Task OnRowUpdate(FormField row)
     {
+        fields.Remove(row);
+        fields.Add(row);
+
         var dictionary = fields
             .GroupBy(item => item.Name)
-            .ToDictionary(grp => grp.Key, grp => (object)string.Join(", ", grp.Select(item => item.Value)));
+            .ToDictionary(grp => grp.Key, grp => (object)string.Join(", ", grp.Select(item => item.Value)));        
 
         settings = Settings.FromDictionary(dictionary);
         payNow?.Update(settings);

@@ -41,7 +41,8 @@ namespace PayPalComponents.Extensions
                     var conversion = new Dictionary<Type, Func<object, object>>()
                     {
                         [typeof(decimal)] = (val) => Convert.ToDecimal(val),
-                        [typeof(DateTime)] = (val) => Convert.ToDateTime(val)
+                        [typeof(DateTime)] = (val) => Convert.ToDateTime(val),
+                        [typeof(bool)] = (val) => Convert.ToBoolean(val)
                     };
 
                     var setValue = (conversion.ContainsKey(kp.Value.PropertyType)) ? 
