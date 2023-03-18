@@ -12,6 +12,9 @@
 		https://aosoftware.blob.core.windows.net/packages/index.json
 	</RestoreAdditionalProjectSources>
 	<RootNamespace>PayPalComponents</RootNamespace>
+	<Copyright>Copyright (c) 2023 Adam O'Neil</Copyright>
+	<PackageProjectUrl>https://github.com/adamfoneil/PayPalComponents.RCL</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 
@@ -28,6 +31,13 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
