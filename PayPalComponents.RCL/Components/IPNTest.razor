@@ -10,9 +10,9 @@
     <RadzenButton Icon="add_circle_outline" Click="AddValue" Text="Add Value" class="my-3" />
 </div>
 
-<RadzenGrid TItem="FormData" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate">
+<RadzenGrid TItem="FormField" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate">
     <Columns>
-        <RadzenGridColumn TItem="FormData" Title="Field Name" Width="25%">
+        <RadzenGridColumn TItem="FormField" Title="Field Name" Width="25%">
             <Template>
                 <span>@context.Name</span>
             </Template>
@@ -21,7 +21,7 @@
             </EditTemplate>
         </RadzenGridColumn>
 
-        <RadzenGridColumn TItem="FormData" Title="Value" Width="75%">
+        <RadzenGridColumn TItem="FormField" Title="Value" Width="75%">
             <Template>
                 <span>@context.Value</span>
             </Template>
@@ -30,7 +30,7 @@
             </EditTemplate>
         </RadzenGridColumn>
 
-        <RadzenGridColumn TItem="FormData" Width="120px">
+        <RadzenGridColumn TItem="FormField" Width="120px">
             <Template>
                 <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true" />
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true" />
@@ -46,36 +46,43 @@
 <PayNowButton Environment="@environment" class="my-3" Settings="settings"/>
 
 @code {
-    RadzenGrid<FormData>? grid;
+    RadzenGrid<FormField>? grid;
     PayPalEnvironment environment = PayPalEnvironment.Sandbox;
-    List<FormData> fields = new();
+    List<FormField> fields = new();
     Settings settings = new();    
+    
+    const string storageKey = "default";
 
     protected override async Task OnAfterRenderAsync(bool firstRenter)
     {
         if (firstRenter)
         {
-            settings = await Storage.GetItemAsync<Settings>("default") ?? new Settings()
+            settings = await Storage.GetItemAsync<Settings>(storageKey) ?? new Settings()
             {
                 BusinessEmail = "your PayPal account email",
                 Amount = 1,
                 NotifyUrl = "Ngrok callback url"
             };
 
-            fields = settings.ToEnumerable((name, val) => new FormData() { Name = name, Value = val }).ToList();
+            fields = settings.ToEnumerable((name, val) => new FormField(name, val?.ToString())).ToList();
 
             StateHasChanged();
         }        
     }
 
-    void AddValue() => grid?.InsertRow(new FormData());    
+    void AddValue() => grid?.InsertRow(new FormField());    
 
-    void EditRow(FormData args) => grid?.EditRow(args);
+    void EditRow(FormField args) => grid?.EditRow(args);
 
-    void DeleteRow(FormData args) => fields.Remove(args);
+    void DeleteRow(FormField args) => fields.Remove(args);
 
-    async Task OnRowUpdate(FormData row)
+    async Task OnRowUpdate(FormField row)
     {
-        
+        var dictionary = fields
+            .GroupBy(item => item.Name)
+            .ToDictionary(grp => grp.Key, grp => (object)string.Join(", ", grp.Select(item => item.Value)));
+
+        settings = Settings.FromDictionary(dictionary);
+        await Storage.SetItemAsync(storageKey, settings);
     }
 }

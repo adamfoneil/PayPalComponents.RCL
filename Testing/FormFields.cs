@@ -25,5 +25,21 @@ namespace Testing
 <input type=""hidden"" name=""item_name"" value=""Whatever""/>
 <input type=""hidden"" name=""item_number"" value=""2943-3433""/>"));
         }
+
+        [TestMethod]
+        public void Transpose()
+        {
+            var settings = new Settings()
+            {
+                BusinessEmail = "adamoosftware@gmail.com",
+                ItemName = "Whatever",
+                ItemNumber = "2943-3433",
+                Amount = 43.22m
+            };
+
+            var dictionary = settings.ToDictionary();
+
+            var newSettings = Settings.FromDictionary(dictionary);
+        }
     }
 }

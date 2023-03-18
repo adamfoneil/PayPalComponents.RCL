@@ -1,4 +1,5 @@
 ﻿using PayPalComponents.Attributes;
+using PayPalComponents.Extensions;
 
 namespace PayPalComponents.Models
 {
@@ -21,5 +22,14 @@ namespace PayPalComponents.Models
 
         [FieldName("notify_url")]
         public string NotifyUrl { get; set; } = default!;
+
+        public static Settings FromDictionary(Dictionary<string, object> dictionary) => new[]
+        {
+            ("business", nameof(BusinessEmail)),
+            ("amount", nameof(Amount)),
+            ("item_name", nameof(ItemName)),
+            ("return", nameof(ReturnUrl)),
+            ("notify_url", nameof(NotifyUrl))
+        }.ToObject<Settings>(dictionary);        
     }
 }
