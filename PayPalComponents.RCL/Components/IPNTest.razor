@@ -43,7 +43,7 @@
     </Columns>
 </RadzenGrid>
 
-<PayNowButton Environment="@environment" class="my-3" Settings="settings" @ref="payNow"/>
+<PayNowButton Environment="@environment" class="my-3" Settings="settings" @ref="payNow" TextTemplate="@((amount) => $"Pay {amount:c0} Now")"/>
 
 @code {
     RadzenGrid<FormField>? grid;
