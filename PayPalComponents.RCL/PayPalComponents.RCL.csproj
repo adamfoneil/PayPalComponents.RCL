@@ -12,6 +12,10 @@
 		https://aosoftware.blob.core.windows.net/packages/index.json
 	</RestoreAdditionalProjectSources>
 	<RootNamespace>PayPalComponents</RootNamespace>
+	<Copyright>Copyright (c) 2023 Adam O'Neil</Copyright>
+	<PackageProjectUrl>https://github.com/adamfoneil/PayPalComponents.RCL</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<Version>1.0.1</Version>
   </PropertyGroup>
 
 
@@ -20,8 +24,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
     <PackageReference Include="AO.PayPalExtensions" Version="1.0.0" />
+    <PackageReference Include="Radzen.Blazor" Version="4.7.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

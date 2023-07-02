@@ -1,4 +1,4 @@
-﻿using TestApp.Extensions;
+﻿using PayPalComponents.Extensions;
 
 namespace Testing
 {

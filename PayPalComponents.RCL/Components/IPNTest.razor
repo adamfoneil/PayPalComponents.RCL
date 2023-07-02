@@ -1,0 +1,96 @@
+@namespace PayPalComponents
+@inject Blazored.LocalStorage.ILocalStorageService Storage
+@using PayPalComponents.Models;
+
+<div>
+    <RadzenDropDown @bind-Value="@environment" Data="@(DropDownData.FromEnum<PayPalEnvironment>())" ValueProperty="Value" class="mb-3"/>
+</div>
+
+<div>
+    <RadzenButton Icon="add_circle_outline" Click="AddValue" Text="Add Value" class="my-3" />
+</div>
+
+<RadzenGrid TItem="FormField" Data="fields" EditMode="DataGridEditMode.Single" @ref="grid" RowUpdate="OnRowUpdate" RowCreate="OnRowUpdate">
+    <Columns>
+        <RadzenGridColumn TItem="FormField" Title="Field Name" Width="25%">
+            <Template>
+                <span>@context.Name</span>
+            </Template>
+            <EditTemplate>
+                <RadzenTextBox @bind-Value="@context.Name" MaxLength="40" class="w-100" />
+            </EditTemplate>
+        </RadzenGridColumn>
+
+        <RadzenGridColumn TItem="FormField" Title="Value" Width="75%">
+            <Template>
+                <span>@context.Value</span>
+            </Template>
+            <EditTemplate>
+                <RadzenTextBox @bind-Value="@context.Value" MaxLength="255" class="w-100" />
+            </EditTemplate>
+        </RadzenGridColumn>
+
+        <RadzenGridColumn TItem="FormField" Width="120px">
+            <Template>
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(context))" @onclick:stopPropagation="true" />
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true" />
+            </Template>
+            <EditTemplate>
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="save" Click="@((args) => grid?.UpdateRow(context))" class="mr-2" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" Click="@((args) => grid?.CancelEditRow(context))" />
+            </EditTemplate>
+        </RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+<PayNowButton Environment="@environment" class="my-3" Settings="settings" @ref="payNow" TextTemplate="@((amount) => $"Pay {amount:c0} Now")"/>
+
+@code {
+    RadzenGrid<FormField>? grid;
+    PayPalEnvironment environment = PayPalEnvironment.Sandbox;
+    List<FormField> fields = new();
+    Settings settings = new();
+    PayNowButton? payNow;
+
+    const string storageKey = "default";
+
+    protected override async Task OnAfterRenderAsync(bool firstRenter)
+    {
+        if (firstRenter)
+        {
+            settings = await Storage.GetItemAsync<Settings>(storageKey) ?? new Settings()
+            {
+                BusinessEmail = "your PayPal account email",
+                Amount = 1,
+                NotifyUrl = "Ngrok callback url"
+            };
+
+            payNow?.Update(settings);
+
+            fields = settings.ToEnumerable((name, val) => new FormField(name, val?.ToString())).ToList();
+
+            StateHasChanged();
+        }        
+    }
+
+    void AddValue() => grid?.InsertRow(new FormField());    
+
+    void EditRow(FormField args) => grid?.EditRow(args);
+
+    void DeleteRow(FormField args) => fields.Remove(args);
+
+    async Task OnRowUpdate(FormField row)
+    {
+        fields.Remove(row);
+        fields.Add(row);
+
+        var dictionary = fields
+            .GroupBy(item => item.Name)
+            .ToDictionary(grp => grp.Key, grp => (object)string.Join(", ", grp.Select(item => item.Value)));        
+
+        settings = Settings.FromDictionary(dictionary);
+        payNow?.Update(settings);
+        
+        await Storage.SetItemAsync(storageKey, settings);        
+    }
+}
