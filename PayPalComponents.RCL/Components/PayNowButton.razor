@@ -34,13 +34,17 @@
     public void Update(Settings settings)
     {
         ArgumentNullException.ThrowIfNull(settings, nameof(settings));
-
         Settings = settings;
-        fields = Settings.ToHiddenFormFields().Select(field => new MarkupString(field));
-
-        StateHasChanged();
+        BuildFields();
     }
 
-    protected override void OnInitialized() => Update(Settings);
-    
+    protected override void OnInitialized() => BuildFields();
+
+    protected override void OnParametersSet() => BuildFields();
+
+    private void BuildFields()
+    {
+        fields = Settings.ToHiddenFormFields().Select(field => new MarkupString(field));
+        StateHasChanged();
+    }    
 }
